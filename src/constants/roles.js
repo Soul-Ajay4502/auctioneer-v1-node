@@ -1,0 +1,45 @@
+/**
+ * Role constants for the application
+ * These map to the user_type values in the database
+ */
+
+export const ROLES = {
+    SUPER_ADMIN: 1,
+    USER: 2,
+}
+
+/**
+ * Permission levels for different actions
+ * These can be used to define what roles can perform what actions
+ */
+export const PERMISSIONS = {
+    // User management permissions
+    READ_USERS: [ROLES.SUPER_ADMIN],
+    CREATE_USERS: [ROLES.SUPER_ADMIN],
+    UPDATE_USERS: [ROLES.SUPER_ADMIN],
+    DELETE_USERS: [ROLES.SUPER_ADMIN],
+
+    // Workspace permissions
+    READ_WORKSPACES: [ROLES.SUPER_ADMIN, ROLES.USER],
+    CREATE_WORKSPACES: [ROLES.SUPER_ADMIN, ROLES.USER],
+    UPDATE_WORKSPACES: [ROLES.SUPER_ADMIN, ROLES.USER],
+    DELETE_WORKSPACES: [ROLES.SUPER_ADMIN],
+
+    // Project permissions
+    READ_PROJECTS: [ROLES.SUPER_ADMIN, ROLES.USER],
+    CREATE_PROJECTS: [ROLES.SUPER_ADMIN, ROLES.USER],
+    UPDATE_PROJECTS: [ROLES.SUPER_ADMIN, ROLES.USER],
+    DELETE_PROJECTS: [ROLES.SUPER_ADMIN, ROLES.USER],
+
+    // Feature permissions
+    READ_FEATURES: [ROLES.SUPER_ADMIN, ROLES.USER],
+    CREATE_FEATURES: [ROLES.SUPER_ADMIN, ROLES.USER],
+    UPDATE_FEATURES: [ROLES.SUPER_ADMIN, ROLES.USER],
+    DELETE_FEATURES: [ROLES.SUPER_ADMIN, ROLES.USER],
+
+    // Task permissions
+    READ_TASKS: [ROLES.SUPER_ADMIN, ROLES.USER],
+    CREATE_TASKS: [ROLES.SUPER_ADMIN, ROLES.USER],
+    UPDATE_TASKS: [ROLES.SUPER_ADMIN, ROLES.USER],
+    DELETE_TASKS: [ROLES.SUPER_ADMIN, ROLES.USER],
+}
