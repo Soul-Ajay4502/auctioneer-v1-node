@@ -13,7 +13,7 @@ const PlayerDetail = sequelize.define(
             field: 'player_id'
         },
         registration_time: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.DATE,
             allowNull: true
         },
         player_name: {
@@ -77,7 +77,7 @@ const PlayerDetail = sequelize.define(
             allowNull: true
         },
         sold_amount: {
-            type: DataTypes.STRING(100),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true
         },
         league_id: {
@@ -85,14 +85,14 @@ const PlayerDetail = sequelize.define(
             allowNull: true
         },
         is_updated_dp: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: '0'
+            defaultValue: false
         },
         is_unsold: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: 'no'
+            defaultValue: false
         }
     },
     {

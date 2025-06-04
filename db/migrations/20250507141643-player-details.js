@@ -67,7 +67,7 @@ module.exports = {
           onDelete: 'SET NULL'
         },
         sold_amount: {
-          type: Sequelize.STRING(100),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true
         },
         league_id: {
@@ -81,14 +81,14 @@ module.exports = {
           onDelete: 'CASCADE'
         },
         is_updated_dp: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.BOOLEAN,
           allowNull: false,
-          defaultValue: '0'
+          defaultValue: false
         },
         is_unsold: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.BOOLEAN,
           allowNull: false,
-          defaultValue: 'no'
+          defaultValue: false
         },
         created_at: {
           allowNull: false,

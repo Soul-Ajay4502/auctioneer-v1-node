@@ -34,15 +34,18 @@ app.use(apiLogger) // to be updated
 
 app.use(routes)
 
+
+app.all('/{*any}', catchAsync(async (req, res, next) => {
+    throw new AppError(`Can't find ${req.originalUrl} on this server`, 404)
+}))
+
 // app.use(
 //     '*',
 //     catchAsync(async (req, res, next) => {
 //         throw new AppError(`Can't find ${req.originalUrl} on this server`, 404)
 //     })
 // )
-app.all('/{*any}', catchAsync(async (req, res, next) => {
-    throw new AppError(`Can't find ${req.originalUrl} on this server`, 404)
-}))
+
 app.use(globalErrorHandler)
 
 const PORT = process.env.PORT || 3001

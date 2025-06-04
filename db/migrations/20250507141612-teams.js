@@ -47,21 +47,21 @@ module.exports = {
           allowNull: true
         },
         max_amount_for_bid: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true
         },
         balance_amount: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true
         },
         max_amount_per_player: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true
         },
         is_auction_started: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.BOOLEAN,
           allowNull: false,
-          defaultValue: 'no'
+          defaultValue: false
         },
         created_at: {
           allowNull: false,

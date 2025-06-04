@@ -25,28 +25,28 @@ module.exports = {
           allowNull: true
         },
         total_players: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER,
           allowNull: true
         },
         total_teams: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER,
           allowNull: false
         },
         has_unsold: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.BOOLEAN,
           allowNull: false,
-          defaultValue: 'no'
+          defaultValue: false
         },
         league_start_date: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DATE,
           allowNull: true
         },
         league_end_date: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DATE,
           allowNull: true
         },
         registration_fee: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true
         },
         created_by: {
@@ -60,33 +60,33 @@ module.exports = {
           onDelete: 'SET NULL'
         },
         registration_end_date: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DATE,
           allowNull: true
         },
         player_base_price: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true,
-          defaultValue: '100'
+          defaultValue: 100
         },
         bid_amount_per_team: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DECIMAL(10, 2),
           allowNull: true,
-          defaultValue: '5000'
+          defaultValue: 5000
         },
         auction_start_date: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.DATE,
           allowNull: true
         },
         break_points: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER,
           allowNull: true
         },
         increments: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER,
           allowNull: true
         },
         minimum_player_count: {
-          type: Sequelize.STRING(45),
+          type: Sequelize.INTEGER,
           allowNull: true
         },
         created_at: {

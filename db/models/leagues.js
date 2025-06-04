@@ -33,11 +33,11 @@ const League = sequelize.define(
             allowNull: true
         },
         total_players: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         total_teams: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.INTEGER,
             allowNull: false,
             validate: {
                 notNull: {
@@ -49,54 +49,54 @@ const League = sequelize.define(
             }
         },
         has_unsold: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: 'no'
+            defaultValue: false
         },
         league_start_date: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DATE,
             allowNull: true
         },
         league_end_date: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DATE,
             allowNull: true
         },
         registration_fee: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true
         },
         created_by: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         registration_end_date: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DATE,
             allowNull: true
         },
         player_base_price: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true,
-            defaultValue: '100'
+            defaultValue: 100
         },
         bid_amount_per_team: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true,
-            defaultValue: '5000'
+            defaultValue: 5000
         },
         auction_start_date: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DATE,
             allowNull: true
         },
         break_points: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         increments: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         minimum_player_count: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.INTEGER,
             allowNull: true
         },
         created_date: {

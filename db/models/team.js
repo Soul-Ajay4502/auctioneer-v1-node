@@ -54,21 +54,21 @@ const Team = sequelize.define(
             allowNull: true
         },
         max_amount_for_bid: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true
         },
         balance_amount: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true
         },
         max_amount_per_player: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.DECIMAL(10, 2),
             allowNull: true
         },
         is_auction_started: {
-            type: DataTypes.STRING(45),
+            type: DataTypes.BOOLEAN,
             allowNull: false,
-            defaultValue: 'no'
+            defaultValue: false
         },
         created_date: {
             type: DataTypes.DATE,
