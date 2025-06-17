@@ -2,6 +2,8 @@
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
+    await queryInterface.sequelize.query(`CREATE EXTENSION IF NOT EXISTS "uuid-ossp";`);
+
     await queryInterface.createTable(
       'leagues',
       {
@@ -78,12 +80,15 @@ module.exports = {
           allowNull: true
         },
         break_points: {
-          type: Sequelize.INTEGER,
-          allowNull: true
+          type: Sequelize.STRING,
+          allowNull: true,
+          defaultValue: '0,100,500,1000,1500,2000,2500,3000,3500,4000,4500,5000'
+
         },
         increments: {
-          type: Sequelize.INTEGER,
-          allowNull: true
+          type: Sequelize.STRING,
+          allowNull: true,
+          defaultValue: '100,200,300,400,500,600,700,800,900,1000,1000'
         },
         minimum_player_count: {
           type: Sequelize.INTEGER,
@@ -93,7 +98,6 @@ module.exports = {
           allowNull: false,
           type: Sequelize.DATE,
           defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-          field: 'created_date'
         },
         updated_at: {
           allowNull: true,
@@ -102,7 +106,13 @@ module.exports = {
         deleted_at: {
           type: Sequelize.DATE,
           allowNull: true
-        }
+        },
+        join_link: {
+          type: Sequelize.UUID,
+          allowNull: false,
+          defaultValue: Sequelize.literal('uuid_generate_v4()'),
+          unique: true
+        },
       },
       {
         underscored: true,

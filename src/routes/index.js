@@ -11,7 +11,7 @@ const API_BASE = `/api/${API_VERSION}`
 const routes = [
     { path: '/auth', router: authRouter },
     { path: '/user', router: userRouter },
-    { path: '/league', router: leagueRouter },
+    { path: '/leagues', router: leagueRouter },
     // Add new routes here as they are created
 ]
 

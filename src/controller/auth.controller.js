@@ -153,11 +153,10 @@ const login = catchAsync(async (req, res, next) => {
     const userResponse = {
         id: user.id,
         email: user.email,
-        first_name: user.first_name,
-        last_name: user.last_name,
+        name: user.display_name,
         user_type: user.user_type,
         is_verified: user.is_verified,
-        isAdmin: user.user_type === ROLES.SUPER_ADMIN,
+        isAdmin: user.user_type == ROLES.SUPER_ADMIN,
     }
 
     return res.status(200).json({

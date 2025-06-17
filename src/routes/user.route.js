@@ -1,6 +1,6 @@
 import { Router } from 'express'
 import { authentication } from '../controller/auth.controller.js'
-import { deleteUser, getAlUsers, getUserById, updateUser, getOwnDetails } from '../controller/user.controller.js'
+import { deleteUser, getAlUsers, getUserById, updateUser, getOwnDetails, userStatistics } from '../controller/user.controller.js'
 import { restrictToRoles } from '../middleware/rbac.middleware.js'
 import { ROLES } from '../constants/roles.js'
 
@@ -11,7 +11,9 @@ userRouter.use(authentication)
 
 userRouter.route('/').get(restrictToRoles([ROLES.SUPER_ADMIN]), getAlUsers)
 
-userRouter.route('/me').get(restrictToRoles([ROLES.SUPER_ADMIN]), getOwnDetails)
+userRouter.route('/me').get(restrictToRoles([ROLES.SUPER_ADMIN]), getOwnDetails);
+
+userRouter.route('/stats/me').get(userStatistics);
 
 userRouter
     .route('/:id')

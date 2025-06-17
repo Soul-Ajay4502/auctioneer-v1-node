@@ -5,12 +5,11 @@ import sequelize from '../../config/db.config.js'
 const PlayerDetail = sequelize.define(
     'player_details',
     {
-        id: {
+        player_id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.INTEGER,
-            field: 'player_id'
         },
         registration_time: {
             type: DataTypes.DATE,

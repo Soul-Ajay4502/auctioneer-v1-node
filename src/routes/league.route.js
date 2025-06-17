@@ -9,11 +9,16 @@ const leagueRouter = Router()
 leagueRouter.use(authentication)
 
 leagueRouter.route('/')
-    .get(restrictToRoles([ROLES.SUPER_ADMIN]), leagueController.getAll)
-    .post(restrictToRoles([ROLES.SUPER_ADMIN]), leagueController.create)
+    .get(leagueController.getAll)
+    .post(leagueController.create)
 
 leagueRouter
     .route('/:id')
     .get(leagueController.getOne)
+    .patch(leagueController.update)
+    .delete(leagueController.delete)
+
+leagueRouter.route('stats/:id')
+    .get(leagueController.getStats)
 
 export default leagueRouter

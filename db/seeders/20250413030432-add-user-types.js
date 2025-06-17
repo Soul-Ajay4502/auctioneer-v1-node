@@ -9,7 +9,7 @@ module.exports = {
             'user_roles',
             [
                 {
-                    label: 'Super Admin',
+                    label: 'admin',
                     access_level: 1, // Highest access level
                     created_at: now,
                     updated_at: now,
@@ -31,7 +31,7 @@ module.exports = {
             'user_roles',
             {
                 label: {
-                    [Sequelize.Op.in]: ['Super Admin', 'Member'],
+                    [Sequelize.Op.in]: ['admin', 'user'],
                 },
             },
             {},

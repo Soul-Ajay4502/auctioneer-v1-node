@@ -1,8 +1,11 @@
-import { Op } from 'sequelize'
+import { col, Op } from 'sequelize'
 import User from '../../db/models/user.js'
 import { AppError } from '../utils/app-error.js'
 import { catchAsync } from '../utils/catch-async.js'
 import { ROLES } from '../constants/roles.js'
+import League from '../../db/models/leagues.js'
+import sequelize from '../../config/db.config.js'
+import PlayerDetail from '../../db/models/player-details.js'
 
 const getAlUsers = catchAsync(async (req, res, next) => {
     const result = await User.findAndCountAll({
@@ -161,4 +164,107 @@ const getOwnDetails = catchAsync(async (req, res, next) => {
     })
 })
 
-export { getAlUsers, getUserById, updateUser, deleteUser, getOwnDetails }
+const userStatistics = catchAsync(async (req, res, next) => {
+    try {
+        const userId = req.user.id;
+
+        // 1. Count of leagues created by user
+        const leaguesCount = await League.count({
+            where: { created_by: userId }
+        });
+
+        // 2. Total revenue from registration fees (based on registered players per league)
+        const leaguesWithFees = await League.findAll({
+            where: { created_by: userId },
+            attributes: [
+                'league_id',
+                'registration_fee',
+                [sequelize.literal('COUNT(DISTINCT "players"."player_id")'), 'registered_players_count']
+            ],
+            include: [
+                {
+                    model: PlayerDetail,
+                    as: 'players',
+                    attributes: []
+                }
+            ],
+            group: ['leagues.league_id', 'leagues.registration_fee'],
+            raw: true
+        });
+
+
+        let totalRevenue = 0;
+        leaguesWithFees.forEach(league => {
+            const registeredPlayers = parseInt(league.registered_players_count, 10) || 0;
+            const fee = parseFloat(league.registration_fee) || 0;
+            totalRevenue += registeredPlayers * fee;
+        });
+
+        // Optional: Format totalRevenue as currency (uncomment if needed)
+        // const formattedRevenue = totalRevenue.toLocaleString('en-IN', {
+        //     style: 'currency',
+        //     currency: 'INR'
+        // });
+
+        // 3. Unique players (based on whatsapp_no) across all user's leagues
+        const uniquePlayersCount = await PlayerDetail.count({
+            distinct: true,
+            col: 'whatsapp_no',
+            include: [
+                {
+                    model: League,
+                    as: 'league',
+                    where: { created_by: userId },
+                    attributes: []
+                }
+            ]
+        });
+
+        // 4. League creation chart (last 6 months)
+        const sixMonthsAgo = new Date();
+        sixMonthsAgo.setMonth(sixMonthsAgo.getMonth() - 6);
+
+        const leagueCreationData = await League.findAll({
+            where: {
+                created_by: userId,
+                created_at: {
+                    [Op.gte]: sixMonthsAgo
+                }
+            },
+            attributes: [
+                [sequelize.fn('date_trunc', 'month', col('created_at')), 'month'],
+                [sequelize.fn('COUNT', col('league_id')), 'count']
+            ],
+            group: [sequelize.fn('date_trunc', 'month', col('created_at'))],
+            order: [[sequelize.fn('date_trunc', 'month', col('created_at')), 'ASC']],
+            raw: true
+        });
+
+        // Format chart data
+        const chartData = {
+            labels: [],
+            values: []
+        };
+
+        leagueCreationData.forEach(item => {
+            const date = new Date(item.month);
+            chartData.labels.push(date.toLocaleString('default', { month: 'short', year: 'numeric' }));
+            chartData.values.push(parseInt(item.count, 10));
+        });
+
+        return res.status(200).json({
+            status: 'success',
+            data: {
+                leaguesCount,
+                totalRevenue,
+                // totalRevenue: formattedRevenue,
+                uniquePlayersCount,
+                chartData
+            }
+        });
+    } catch (error) {
+        next(error);
+    }
+});
+
+export { getAlUsers, getUserById, updateUser, deleteUser, getOwnDetails, userStatistics }

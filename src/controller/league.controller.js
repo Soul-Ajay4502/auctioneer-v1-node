@@ -25,27 +25,52 @@ export const leagueController = {
     },
 
     // Get all leagues
+    // Get all leagues with pagination
     getAll: async (req, res, next) => {
         try {
-            const leagues = await League.findAll({
+            // Extract pagination parameters from query
+            const page = parseInt(req.query.page, 10) || 1;
+            const limit = parseInt(req.query.limit, 10) || 10;
+            const offset = (page - 1) * limit;
+
+            // Get total count and paginated data
+            const { count, rows: leagues } = await League.findAndCountAll({
                 include: [
                     {
                         model: User,
                         as: 'creator',
-                        attributes: ['id', 'first_name', 'last_name', 'email']
+                        attributes: ['id', 'display_name', 'email']
                     }
-                ]
-            })
+                ],
+                where: {
+                    created_by: req.user.id
+                },
+                limit,
+                offset,
+                order: [['createdAt', 'DESC']]
+            });
+
+            // Calculate pagination metadata
+            const totalPages = Math.ceil(count / limit);
+            const hasNext = page < totalPages;
+            const hasPrevious = page > 1;
 
             return res.status(200).json({
                 status: 'success',
                 results: leagues.length,
-                data: {
-                    leagues
-                }
-            })
+                pagination: {
+                    total: count,
+                    totalPages,
+                    currentPage: page,
+                    limit,
+                    hasNext,
+                    hasPrevious
+                },
+                data: leagues
+
+            });
         } catch (error) {
-            next(error)
+            next(error);
         }
     },
 
@@ -59,7 +84,7 @@ export const leagueController = {
                     {
                         model: User,
                         as: 'creator',
-                        attributes: ['id', 'first_name', 'last_name', 'email']
+                        attributes: ['id', 'display_name', 'email']
                     },
                     {
                         model: Team,
@@ -71,6 +96,7 @@ export const leagueController = {
                     }
                 ]
             })
+
 
             if (!league) {
                 return next(new AppError('No league found with that ID', 404))
@@ -94,6 +120,10 @@ export const leagueController = {
             const leagueData = req.body
 
             const league = await League.findByPk(id)
+
+            if (league.created_by !== req.user.id) {
+                return next(new AppError('You are not allowed to update this league', 403))
+            }
 
             if (!league) {
                 return next(new AppError('No league found with that ID', 404))
@@ -122,6 +152,9 @@ export const leagueController = {
 
             if (!league) {
                 return next(new AppError('No league found with that ID', 404))
+            }
+            if (league.created_by !== req.user.id) {
+                return next(new AppError('You are not allowed to delete this league', 403))
             }
 
             // Delete league (using paranoid deletion)

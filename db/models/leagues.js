@@ -5,12 +5,11 @@ import sequelize from '../../config/db.config.js'
 const League = sequelize.define(
     'leagues',
     {
-        id: {
+        league_id: {
             allowNull: false,
             autoIncrement: true,
             primaryKey: true,
             type: DataTypes.INTEGER,
-            field: 'league_id'
         },
         league_name: {
             type: DataTypes.STRING(100),
@@ -99,20 +98,31 @@ const League = sequelize.define(
             type: DataTypes.INTEGER,
             allowNull: true
         },
-        created_date: {
+        created_at: {
             type: DataTypes.DATE,
             allowNull: false,
             defaultValue: DataTypes.NOW,
-            field: 'created_date'
+        },
+        updated_at: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        deleted_at: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        join_link: {
+            type: DataTypes.UUID,
+            allowNull: false,
+            defaultValue: DataTypes.UUIDV4,
+            unique: true
         }
     },
     {
         underscored: true,
         timestamps: true,
         paranoid: true,
-        freezeTableName: true,
-        createdAt: 'created_date',
-        updatedAt: 'updated_at'
+        freezeTableName: true
     }
 )
 

@@ -20,10 +20,7 @@ module.exports = {
                     onUpdate: 'CASCADE',
                     type: Sequelize.INTEGER,
                 },
-                first_name: {
-                    type: Sequelize.STRING,
-                },
-                last_name: {
+                display_name: {
                     type: Sequelize.STRING,
                 },
                 email: {
