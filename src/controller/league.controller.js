@@ -54,6 +54,12 @@ export const leagueController = {
             const totalPages = Math.ceil(count / limit);
             const hasNext = page < totalPages;
             const hasPrevious = page > 1;
+            const leaguesWithJoinLink = leagues.map(league => {
+                let leagueObj = league.toJSON();
+                const leagueName = leagueObj.league_name.replace(/\s+/g, '').toLowerCase();
+                leagueObj.join_link = `${process.env.CLIENT_URL}/join-league/${leagueName}-${leagueObj.join_link}`;
+                return leagueObj;
+            });
 
             return res.status(200).json({
                 status: 'success',
@@ -66,7 +72,7 @@ export const leagueController = {
                     hasNext,
                     hasPrevious
                 },
-                data: leagues
+                data: leaguesWithJoinLink
 
             });
         } catch (error) {
@@ -79,34 +85,31 @@ export const leagueController = {
         try {
             const { id } = req.params
 
-            const league = await League.findByPk(id, {
+            let league = await League.findByPk(id, {
                 include: [
                     {
                         model: User,
                         as: 'creator',
                         attributes: ['id', 'display_name', 'email']
-                    },
-                    {
-                        model: Team,
-                        as: 'teams'
-                    },
-                    {
-                        model: PlayerDetail,
-                        as: 'players'
                     }
                 ]
-            })
+            });
 
+            const teamCount = await league.countTeams();     // Assumes `League.hasMany(Team, { as: 'teams' })`
+            const playerCount = await league.countPlayers(); // Assumes `League.hasMany(PlayerDetail, { as: 'players' })`
 
             if (!league) {
                 return next(new AppError('No league found with that ID', 404))
             }
+            league = league.toJSON();
+            league.registered_teams_count = teamCount;
+            league.registered_players_count = playerCount;
+            league.join_link = `${process.env.CLIENT_URL}/join-league/${league.league_name.replace(/\s+/g, '').toLowerCase()}-${league.join_link}`;
 
             return res.status(200).json({
                 status: 'success',
-                data: {
-                    league
-                }
+                data: league
+
             })
         } catch (error) {
             next(error)
