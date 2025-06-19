@@ -50,8 +50,16 @@ const UserRole = sequelize.define(
     },
 )
 
-// Define the association with User model
-UserRole.hasMany(User, { foreignKey: 'user_type' })
-User.belongsTo(UserRole, { foreignKey: 'user_type' })
+const setupAssociations = async () => {
+    try {
+        const User = (await import('./user.js')).default
+        UserRole.hasMany(User, { foreignKey: 'user_type' })
+        User.belongsTo(UserRole, { foreignKey: 'user_type' })
+    } catch (error) {
+        console.error('Error setting up UserRole associations:', error)
+    }
+}
+
+setupAssociations()
 
 export default UserRole

@@ -2,6 +2,7 @@ import { Router } from 'express'
 import authRouter from './auth.route.js'
 import userRouter from './user.route.js'
 import leagueRouter from './league.route.js'
+import teamRouter from './team.route.js'
 
 const router = Router()
 
@@ -12,6 +13,7 @@ const routes = [
     { path: '/auth', router: authRouter },
     { path: '/user', router: userRouter },
     { path: '/leagues', router: leagueRouter },
+    { path: '/teams', router: teamRouter },
     // Add new routes here as they are created
 ]
 

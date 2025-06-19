@@ -1,5 +1,5 @@
 'use strict'
-import { Team, League, PlayerDetail } from '../models/index.js'
+import { Team, League, PlayerDetail } from '../../db/models/index.js'
 import { AppError } from '../utils/app-error.js'
 
 export const teamController = {
@@ -43,7 +43,7 @@ export const teamController = {
                     {
                         model: League,
                         as: 'league',
-                        attributes: ['id', 'league_name', 'league_full_name']
+                        attributes: ['league_id', 'league_name', 'league_full_name']
                     }
                 ]
             })
@@ -51,9 +51,7 @@ export const teamController = {
             return res.status(200).json({
                 status: 'success',
                 results: teams.length,
-                data: {
-                    teams
-                }
+                data: teams
             })
         } catch (error) {
             next(error)
@@ -129,7 +127,7 @@ export const teamController = {
     },
 
     // Delete a team
-    delete: async (req, res, next) => {
+    remove: async (req, res, next) => {
         try {
             const { id } = req.params
 
