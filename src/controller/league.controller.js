@@ -57,7 +57,7 @@ export const leagueController = {
             const leaguesWithJoinLink = leagues.map(league => {
                 let leagueObj = league.toJSON();
                 const leagueName = leagueObj.league_name.replace(/\s+/g, '').toLowerCase();
-                leagueObj.join_link = `${process.env.CLIENT_URL}/join-league/${leagueName}-${leagueObj.join_link}`;
+                leagueObj.join_link = `${process.env.CLIENT_URL}app/join-league/${leagueName}-${leagueObj.join_link}`;
                 return leagueObj;
             });
 

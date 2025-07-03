@@ -1,7 +1,8 @@
 'use strict'
-import { PlayerDetail, League, Team } from '../models/index.js'
+import { PlayerDetail, League, Team } from '../../db/models/index.js'
 import { AppError } from '../utils/app-error.js'
 import { Op } from 'sequelize'
+import { getPaginationParams, paginatedQuery } from '../utils/pagination.utils.js'
 
 export const playerController = {
     // Create a new player
@@ -49,7 +50,8 @@ export const playerController = {
     // Get all players
     getAll: async (req, res, next) => {
         try {
-            const { league_id, team_id, is_unsold, player_role } = req.query
+            const { league_id, team_id, is_unsold, player_role, } = req.query
+            const paginationRequestData = getPaginationParams(req.query)
 
             let whereClause = {}
 
@@ -68,29 +70,45 @@ export const playerController = {
             if (player_role) {
                 whereClause.player_role = player_role
             }
+            //         const { data: projects, pagination } = await paginatedQuery(
+            //     Project,
+            //     {
+            //         where: whereConditions,
+            //         include: [
+            //             {
+            //                 model: Status,
+            //                 attributes: ['id', 'short_code'],
+            //             },
+            //         ],
+            //         attributes: ['id', 'name'],
+            //         order: [['created_at', 'DESC']],
+            //     },
+            //     paginationRequestData,
+            // )
 
-            const players = await PlayerDetail.findAll({
+            const { data: players, pagination } = await paginatedQuery(PlayerDetail, {
                 where: whereClause,
                 include: [
                     {
                         model: League,
                         as: 'league',
-                        attributes: ['id', 'league_name']
+                        attributes: ['league_id', 'league_name']
                     },
                     {
                         model: Team,
                         as: 'team',
                         attributes: ['id', 'team_name', 'team_owner']
                     }
-                ]
-            })
+                ],
+            },
+                paginationRequestData
+            )
 
             return res.status(200).json({
                 status: 'success',
-                results: players.length,
-                data: {
-                    players
-                }
+                results: players?.length,
+                data: players,
+                pagination: pagination
             })
         } catch (error) {
             next(error)

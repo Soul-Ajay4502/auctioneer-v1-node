@@ -17,15 +17,7 @@ const PlayerDetail = sequelize.define(
         },
         player_name: {
             type: DataTypes.STRING(255),
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: 'Player name cannot be null'
-                },
-                notEmpty: {
-                    msg: 'Player name cannot be empty'
-                }
-            }
+            allowNull: true,
         },
         place: {
             type: DataTypes.STRING(255),
@@ -33,15 +25,8 @@ const PlayerDetail = sequelize.define(
         },
         whatsapp_no: {
             type: DataTypes.STRING(15),
-            allowNull: false,
-            validate: {
-                notNull: {
-                    msg: 'WhatsApp number cannot be null'
-                },
-                notEmpty: {
-                    msg: 'WhatsApp number cannot be empty'
-                }
-            }
+            allowNull: true,
+
         },
         current_team: {
             type: DataTypes.STRING(255),
@@ -91,6 +76,42 @@ const PlayerDetail = sequelize.define(
         is_unsold: {
             type: DataTypes.BOOLEAN,
             allowNull: false,
+            defaultValue: false
+        },
+        created_at: {
+            type: DataTypes.DATE,
+            allowNull: false,
+            defaultValue: DataTypes.NOW,
+        },
+        updated_at: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        deleted_at: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        otp: {
+            type: DataTypes.STRING(6),
+            allowNull: true
+        },
+        verification_code_expires_at: {
+            type: DataTypes.DATE,
+            allowNull: true
+        },
+        is_registered: {
+            type: DataTypes.BOOLEAN,
+            defaultValue: false
+        },
+        email: {
+            type: DataTypes.STRING,
+            allowNull: false,
+            validate: {
+                isEmail: true
+            }
+        },
+        is_admin_approved: {
+            type: DataTypes.BOOLEAN,
             defaultValue: false
         }
     },

@@ -531,6 +531,51 @@ const resetPassword = catchAsync(async (req, res, next) => {
     }
 })
 
+const sendVerificationCode = catchAsync(async (req, res, next) => {
+    const { email } = req.body
+
+    if (!email) {
+        return next(new AppError('Please provide email', 400))
+    }
+
+    const user = await User.findOne({
+        where: {
+            email,
+        },
+    })
+
+    if (!user) {
+        return next(new AppError('User not found or already verified', 400))
+    }
+
+    // Generate new verification code
+    const verificationCode = Math.floor(100000 + Math.random() * 900000)
+    const verificationExpiry = new Date(Date.now() + 15 * 60 * 1000)
+
+    // Update user with new verification code
+    await User.update(
+        {
+            verification_code: verificationCode,
+            verification_code_expires_at: verificationExpiry,
+        },
+        { where: { id: user.id } }
+    )
+
+    // Send new verification email
+    try {
+        await sendVerificationEmail(email, verificationCode)
+        console.log('New verification email sent successfully')
+    } catch (error) {
+        console.error('Failed to send verification email:', error)
+        // Continue even if email fails
+    }
+
+    return res.status(200).json({
+        status: 'success',
+        message: 'New verification code sent. Please check your email. Code expires in 15 minutes.',
+    })
+})
+
 export {
     signup,
     login,

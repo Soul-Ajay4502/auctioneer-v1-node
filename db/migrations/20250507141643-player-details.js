@@ -18,7 +18,7 @@ module.exports = {
         },
         player_name: {
           type: Sequelize.STRING(255),
-          allowNull: false
+          allowNull: true
         },
         place: {
           type: Sequelize.STRING(255),
@@ -26,7 +26,7 @@ module.exports = {
         },
         whatsapp_no: {
           type: Sequelize.STRING(15),
-          allowNull: false
+          allowNull: true
         },
         current_team: {
           type: Sequelize.STRING(255),
@@ -102,6 +102,27 @@ module.exports = {
         deleted_at: {
           type: Sequelize.DATE,
           allowNull: true
+        },
+        otp: {
+          type: Sequelize.STRING(6),
+          allowNull: true
+        },
+        verification_code_expires_at: {
+          type: Sequelize.DATE,
+          allowNull: true
+        },
+        is_registered: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
+        },
+        email: {
+          allowNull: false,
+          type: Sequelize.STRING,
+          allowNull: true
+        },
+        is_admin_approved: {
+          type: Sequelize.BOOLEAN,
+          defaultValue: false
         }
       },
       {

@@ -8,16 +8,15 @@ module.exports = {
         player_name: 'Player 1',
         place: 'Place 1',
         whatsapp_no: '1234567890',
-        current_team: 'Team 1',
         player_role: 'Batsman',
         batting_style: 'Right Handed',
         bowling_style: 'Right Arm Medium',
-        sold_to: 1,
-        sold_amount: 1000,
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player1@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 2',
@@ -27,12 +26,14 @@ module.exports = {
         player_role: 'Bowler',
         batting_style: 'Left Handed',
         bowling_style: 'Left Arm Medium',
-        sold_to: 2,
-        sold_amount: 1000,
+
+
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player2@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 3',
@@ -42,12 +43,13 @@ module.exports = {
         player_role: 'Allrounder',
         batting_style: 'Right Handed',
         bowling_style: 'Right Arm Medium',
-        sold_to: 3,
-        sold_amount: 1000,
+
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player3@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 4',
@@ -57,12 +59,13 @@ module.exports = {
         player_role: 'Wicketkeeper',
         batting_style: 'Left Handed',
         bowling_style: 'Left Arm Medium',
-        sold_to: 4,
-        sold_amount: 1000,
+
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player4@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 5',
@@ -72,12 +75,13 @@ module.exports = {
         player_role: 'Batsman',
         batting_style: 'Right Handed',
         bowling_style: 'Right Arm Medium',
-        sold_to: 5,
-        sold_amount: 1000,
+
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player5@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 6',
@@ -87,42 +91,42 @@ module.exports = {
         player_role: 'Bowler',
         batting_style: 'Left Handed',
         bowling_style: 'Left Arm Medium',
-        sold_to: 6,
-        sold_amount: 1000,
+
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player6@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 7',
         place: 'Place 7',
         whatsapp_no: '1234567890',
-        current_team: 'Team 7',
         player_role: 'Allrounder',
         batting_style: 'Right Handed',
         bowling_style: 'Right Arm Medium',
-        sold_to: 7,
-        sold_amount: 1000,
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player7@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 8',
         place: 'Place 8',
         whatsapp_no: '1234567890',
-        current_team: 'Team 8',
         player_role: 'Wicketkeeper',
         batting_style: 'Left Handed',
         bowling_style: 'Left Arm Medium',
-        sold_to: 8,
-        sold_amount: 1000,
+
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player8@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 9',
@@ -132,12 +136,12 @@ module.exports = {
         player_role: 'Batsman',
         batting_style: 'Right Handed',
         bowling_style: 'Right Arm Medium',
-        sold_to: 9,
-        sold_amount: 1000,
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player9@gmail.com',
+        is_registered: true
       },
       {
         player_name: 'Player 10',
@@ -147,12 +151,12 @@ module.exports = {
         player_role: 'Bowler',
         batting_style: 'Left Handed',
         bowling_style: 'Left Arm Medium',
-        sold_to: 10,
-        sold_amount: 1000,
         league_id: 1,
-        is_unsold: false,
+        is_unsold: true,
         created_at: new Date(),
-        updated_at: new Date()
+        updated_at: new Date(),
+        email: 'player10@gmail.com',
+        is_registered: true
       }
     ], {});
   },

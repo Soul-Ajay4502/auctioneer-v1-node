@@ -3,6 +3,8 @@ import authRouter from './auth.route.js'
 import userRouter from './user.route.js'
 import leagueRouter from './league.route.js'
 import teamRouter from './team.route.js'
+import metaRouter from './meta.route.js'
+import playerRouter from './player.route.js'
 
 const router = Router()
 
@@ -14,6 +16,8 @@ const routes = [
     { path: '/user', router: userRouter },
     { path: '/leagues', router: leagueRouter },
     { path: '/teams', router: teamRouter },
+    { path: '/meta', router: metaRouter },
+    { path: '/players', router: playerRouter },
     // Add new routes here as they are created
 ]
 
