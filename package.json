@@ -1,37 +1,37 @@
 {
-  "name": "auctioneer-api",
-  "version": "1.0.0",
-  "main": "src/index.js",
-  "type": "module",
-  "scripts": {
-    "start:dev": "nodemon app.js",
-    "db:migrate": "npx sequelize-cli db:migrate",
-    "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
-    "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
-    "db:seed:all": "npx sequelize-cli db:seed:all",
-    "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all",
-    "db:reset:full": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:seed:all"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "dependencies": {
-    "bcrypt": "^5.1.1",
-    "body-parser": "^2.2.0",
-    "cookie-parser": "^1.4.7",
-    "cors": "^2.8.5",
-    "dotenv": "^16.5.0",
-    "express": "^5.1.0",
-    "jsonwebtoken": "^9.0.2",
-    "nodemailer": "^7.0.2",
-    "pg": "^8.15.6",
-    "pg-hstore": "^2.3.4",
-    "sequelize": "^6.37.7",
-    "zod": "^3.24.4"
-  },
-  "devDependencies": {
-    "nodemon": "^3.1.10",
-    "sequelize-cli": "^6.6.2"
-  }
+    "name": "auctioneer-api",
+    "version": "1.0.0",
+    "main": "src/index.js",
+    "type": "module",
+    "scripts": {
+        "start:dev": "nodemon app.js",
+        "db:migrate": "npx sequelize-cli db:migrate",
+        "db:migrate:undo": "npx sequelize-cli db:migrate:undo",
+        "db:migrate:undo:all": "npx sequelize-cli db:migrate:undo:all",
+        "db:seed:all": "npx sequelize-cli db:seed:all",
+        "db:seed:undo:all": "npx sequelize-cli db:seed:undo:all",
+        "db:reset:full": "npx sequelize-cli db:migrate:undo:all && npx sequelize-cli db:migrate && npx sequelize-cli db:seed:undo:all && npx sequelize-cli db:seed:all"
+    },
+    "keywords": [],
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "dependencies": {
+        "bcrypt": "^5.1.1",
+        "body-parser": "^2.2.0",
+        "cookie-parser": "^1.4.7",
+        "cors": "^2.8.5",
+        "dotenv": "^16.5.0",
+        "express": "^5.1.0",
+        "jsonwebtoken": "^9.0.2",
+        "nodemailer": "^7.0.2",
+        "pg": "^8.15.6",
+        "pg-hstore": "^2.3.4",
+        "sequelize": "^6.37.7",
+        "zod": "^3.24.4"
+    },
+    "devDependencies": {
+        "nodemon": "^3.1.10",
+        "sequelize-cli": "^6.6.2"
+    }
 }

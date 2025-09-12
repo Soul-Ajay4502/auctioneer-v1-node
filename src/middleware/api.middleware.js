@@ -1,16 +1,14 @@
 // API middleware for common operations
 export const apiLogger = (req, res, next) => {
-  const start = Date.now();
+    const start = Date.now()
 
-  res.on("finish", () => {
-    const duration = Date.now() - start;
-    console.log(
-      `${new Date().toISOString()} - ${req.method} ${req.originalUrl} - ${res.statusCode} (${duration}ms)`,
-    );
-  });
+    res.on('finish', () => {
+        const duration = Date.now() - start
+        console.log(`${new Date().toISOString()} - ${req.method} ${req.originalUrl} - ${res.statusCode} (${duration}ms)`)
+    })
 
-  next();
-};
+    next()
+}
 
 // You can add rate limiting middleware here if needed
 // Example with express-rate-limit (you would need to install this package):
