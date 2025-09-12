@@ -35,8 +35,8 @@ export const playerController = {
         return next(
           new AppError(
             "Player with this details already exists for this league",
-            400
-          )
+            400,
+          ),
         );
       }
 
@@ -109,7 +109,7 @@ export const playerController = {
             },
           ],
         },
-        paginationRequestData
+        paginationRequestData,
       );
 
       return res.status(200).json({
@@ -203,8 +203,8 @@ export const playerController = {
         return next(
           new AppError(
             "Player with this name, place, WhatsApp number, and league already exists",
-            400
-          )
+            400,
+          ),
         );
       }
       next(error);
@@ -283,8 +283,8 @@ export const playerController = {
         return next(
           new AppError(
             `Team does not have enough balance. Remaining balance: ${remainingBalance}`,
-            400
-          )
+            400,
+          ),
         );
       }
 
@@ -419,7 +419,7 @@ export const playerController = {
             otp: verificationCode,
             verification_code_expires_at: verificationExpiry,
           },
-          { where: { player_id: player.player_id } }
+          { where: { player_id: player.player_id } },
         );
       }
 
@@ -437,7 +437,7 @@ export const playerController = {
         message:
           "New verification code sent. Please check your email. Code expires in 15 minutes.",
       });
-    }
+    },
   ),
   verifyPlayerRegistrationCode: catchAsync(async (req, res, next) => {
     const { otp: code, email } = req.body;
@@ -463,7 +463,7 @@ export const playerController = {
         verification_code: null,
         verification_code_expires_at: null,
       },
-      { where: { player_id: player.player_id } }
+      { where: { player_id: player.player_id } },
     );
     const tokenPayload = {
       id: player.player_id,

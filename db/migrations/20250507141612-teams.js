@@ -1,73 +1,73 @@
-'use strict'
+"use strict";
 /** @type {import('sequelize-cli').Migration} */
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      'teams',
+      "teams",
       {
         id: {
           allowNull: false,
           autoIncrement: true,
           primaryKey: true,
           type: Sequelize.INTEGER,
-          field: 'team_id'
+          field: "team_id",
         },
         team_name: {
           type: Sequelize.STRING(300),
-          allowNull: false
+          allowNull: false,
         },
         team_owner: {
           type: Sequelize.STRING(200),
-          allowNull: true
+          allowNull: true,
         },
         team_owner_phone: {
           type: Sequelize.STRING(20),
-          allowNull: true
+          allowNull: true,
         },
         league_id: {
           type: Sequelize.INTEGER,
           allowNull: false,
           references: {
-            model: 'leagues',
-            key: 'league_id'
+            model: "leagues",
+            key: "league_id",
           },
-          onUpdate: 'CASCADE',
-          onDelete: 'CASCADE'
+          onUpdate: "CASCADE",
+          onDelete: "CASCADE",
         },
         jersey_color: {
           type: Sequelize.STRING(45),
-          allowNull: true
+          allowNull: true,
         },
         team_logo: {
           type: Sequelize.STRING(450),
-          allowNull: true
+          allowNull: true,
         },
         logo_url: {
           type: Sequelize.STRING(450),
-          allowNull: true
+          allowNull: true,
         },
         max_amount_for_bid: {
           type: Sequelize.DECIMAL(10, 2),
-          allowNull: true
+          allowNull: true,
         },
         balance_amount: {
           type: Sequelize.DECIMAL(10, 2),
-          allowNull: true
+          allowNull: true,
         },
         max_amount_per_player: {
           type: Sequelize.DECIMAL(10, 2),
-          allowNull: true
+          allowNull: true,
         },
         is_auction_started: {
           type: Sequelize.BOOLEAN,
           allowNull: false,
-          defaultValue: false
+          defaultValue: false,
         },
         created_at: {
           allowNull: false,
           type: Sequelize.DATE,
-          defaultValue: Sequelize.literal('CURRENT_TIMESTAMP'),
-          field: 'created_date'
+          defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
+          field: "created_date",
         },
         updated_at: {
           allowNull: true,
@@ -75,17 +75,17 @@ module.exports = {
         },
         deleted_at: {
           type: Sequelize.DATE,
-          allowNull: true
-        }
+          allowNull: true,
+        },
       },
       {
         underscored: true,
-        paranoid: true
-      }
-    )
+        paranoid: true,
+      },
+    );
   },
 
   async down(queryInterface, Sequelize) {
-    await queryInterface.dropTable('teams')
-  }
-}
+    await queryInterface.dropTable("teams");
+  },
+};

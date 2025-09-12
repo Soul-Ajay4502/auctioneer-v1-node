@@ -135,7 +135,7 @@ const login = catchAsync(async (req, res, next) => {
 
   const isPasswordValid = await passwordUtils.comparePasswords(
     password,
-    user.password
+    user.password,
   );
   if (!isPasswordValid) {
     return next(new AppError("Incorrect email or password", 401));
@@ -154,7 +154,7 @@ const login = catchAsync(async (req, res, next) => {
 
   await User.update(
     { refresh_token: refreshToken },
-    { where: { id: user.id } }
+    { where: { id: user.id } },
   );
 
   // Set refresh token cookie
@@ -186,7 +186,7 @@ const logout = catchAsync(async (req, res) => {
   if (userId) {
     const result = await User.update(
       { refresh_token: null },
-      { where: { id: userId } }
+      { where: { id: userId } },
     );
     console.log("logout result", result);
     logoutSuccess = result[0] > 0;
@@ -194,7 +194,7 @@ const logout = catchAsync(async (req, res) => {
     // If no user ID but we have a refresh token cookie, invalidate by token
     const result = await User.update(
       { refresh_token: null },
-      { where: { refresh_token: refreshToken } }
+      { where: { refresh_token: refreshToken } },
     );
     logoutSuccess = result[0] > 0;
   }
@@ -224,7 +224,7 @@ const refresh = catchAsync(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new AppError("Refresh Token is not valid or has expired!", 403)
+      new AppError("Refresh Token is not valid or has expired!", 403),
     );
   }
 
@@ -247,7 +247,7 @@ const refresh = catchAsync(async (req, res, next) => {
     // Update the refresh token in the database
     await User.update(
       { refresh_token: newRefreshToken },
-      { where: { id: user.id } }
+      { where: { id: user.id } },
     );
 
     // Set refresh token cookie using utility function
@@ -315,7 +315,10 @@ const authentication = catchAsync(async (req, _, next) => {
     return next();
   } catch (error) {
     return next(
-      new AppError("Invalid or expired access token. Please log in again.", 401)
+      new AppError(
+        "Invalid or expired access token. Please log in again.",
+        401,
+      ),
     );
   }
 });
@@ -325,7 +328,7 @@ const verifyEmail = catchAsync(async (req, res, next) => {
 
   if (!email || !code) {
     return next(
-      new AppError("Please provide email and verification code", 400)
+      new AppError("Please provide email and verification code", 400),
     );
   }
 
@@ -366,7 +369,7 @@ const verifyEmail = catchAsync(async (req, res, next) => {
       verification_code: null,
       verification_code_expires_at: null,
     },
-    { where: { id: user.id } }
+    { where: { id: user.id } },
   );
 
   // Generate tokens with verified status
@@ -383,7 +386,7 @@ const verifyEmail = catchAsync(async (req, res, next) => {
   // Update refresh token
   await User.update(
     { refresh_token: refreshToken },
-    { where: { id: user.id } }
+    { where: { id: user.id } },
   );
 
   // Set refresh token cookie using utility function
@@ -436,7 +439,7 @@ const resendVerificationCode = catchAsync(async (req, res, next) => {
       verification_code: verificationCode,
       verification_code_expires_at: verificationExpiry,
     },
-    { where: { id: user.id } }
+    { where: { id: user.id } },
   );
 
   // Send new verification email
@@ -486,7 +489,7 @@ const forgotPassword = catchAsync(async (req, res, next) => {
       },
       {
         where: { email: email },
-      }
+      },
     );
 
     console.log("user email", user.email);
@@ -538,7 +541,7 @@ const resetPassword = catchAsync(async (req, res, next) => {
 
   if (!user) {
     return next(
-      new AppError("Password reset token is invalid or has expired", 400)
+      new AppError("Password reset token is invalid or has expired", 400),
     );
   }
 
@@ -552,7 +555,7 @@ const resetPassword = catchAsync(async (req, res, next) => {
       {
         where: { id: user.id },
         individualHooks: true, // Important: This ensures hooks are run
-      }
+      },
     );
 
     // Invalidate all existing sessions
@@ -562,7 +565,7 @@ const resetPassword = catchAsync(async (req, res, next) => {
       },
       {
         where: { id: user.id },
-      }
+      },
     );
 
     return res.status(200).json({
@@ -622,7 +625,10 @@ const playerAuthentication = catchAsync(async (req, _, next) => {
     return next();
   } catch (error) {
     return next(
-      new AppError("Invalid or expired access token. Please log in again.", 401)
+      new AppError(
+        "Invalid or expired access token. Please log in again.",
+        401,
+      ),
     );
   }
 });

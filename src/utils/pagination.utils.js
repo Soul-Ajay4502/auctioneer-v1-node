@@ -6,16 +6,16 @@
  * @returns {Object} - Pagination parameters (page, limit, offset)
  */
 export const getPaginationParams = (query) => {
-    const page = parseInt(query.page) || 1
-    const limit = parseInt(query.limit) || 10
-    const offset = (page - 1) * limit
+  const page = parseInt(query.page) || 1;
+  const limit = parseInt(query.limit) || 10;
+  const offset = (page - 1) * limit;
 
-    return {
-        page,
-        limit,
-        offset,
-    }
-}
+  return {
+    page,
+    limit,
+    offset,
+  };
+};
 
 /**
  * Creates pagination metadata for response
@@ -25,15 +25,15 @@ export const getPaginationParams = (query) => {
  * @returns {Object} - Pagination metadata
  */
 export const getPaginationMeta = (total, page, limit) => {
-    return {
-        total,
-        currentPage: page,
-        totalPages: Math.ceil(total / limit),
-        pageSize: limit,
-        hasNext: page < Math.ceil(total / limit),
-        hasPrevious: page > 1,
-    }
-}
+  return {
+    total,
+    currentPage: page,
+    totalPages: Math.ceil(total / limit),
+    pageSize: limit,
+    hasNext: page < Math.ceil(total / limit),
+    hasPrevious: page > 1,
+  };
+};
 
 /**
  * Executes a paginated query and returns data with pagination metadata
@@ -46,24 +46,24 @@ export const getPaginationMeta = (total, page, limit) => {
  * @returns {Object} - Paginated results with metadata
  */
 export const paginatedQuery = async (model, options, paginationMetaData) => {
-    const { page, limit, offset } = paginationMetaData
+  const { page, limit, offset } = paginationMetaData;
 
-    // Count total items
-    const total = await model.count({
-        where: options.where || {},
-        include: options.include,
-        distinct: true,
-    })
+  // Count total items
+  const total = await model.count({
+    where: options.where || {},
+    include: options.include,
+    distinct: true,
+  });
 
-    // Get paginated data
-    const items = await model.findAll({
-        ...options,
-        limit,
-        offset,
-    })
+  // Get paginated data
+  const items = await model.findAll({
+    ...options,
+    limit,
+    offset,
+  });
 
-    return {
-        data: items,
-        pagination: getPaginationMeta(total, page, limit),
-    }
-}
+  return {
+    data: items,
+    pagination: getPaginationMeta(total, page, limit),
+  };
+};
