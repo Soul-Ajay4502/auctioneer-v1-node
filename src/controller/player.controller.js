@@ -154,7 +154,8 @@ export const playerController = {
     update: async (req, res, next) => {
         try {
             const { id } = req.params
-            const playerData = req.body
+            const dataFrombody = req.body
+            let playerData = {}
 
             const player = await PlayerDetail.findByPk(id)
 
@@ -162,24 +163,10 @@ export const playerController = {
                 return next(new AppError('No player found with that ID', 404))
             }
 
-            // If league_id is being updated, check if the new league exists
-            if (playerData.league_id && playerData.league_id !== player.league_id) {
-                const league = await League.findByPk(playerData.league_id)
-                if (!league) {
-                    return next(new AppError('No league found with that ID', 404))
-                }
-            }
+            const isApproved = dataFrombody.isApproved
+            playerData.is_admin_approved = isApproved
+            console.log('playerData', playerData);
 
-            // If sold_to is being updated, check if the new team exists
-            if (playerData.sold_to && playerData.sold_to !== player.sold_to) {
-                const team = await Team.findByPk(playerData.sold_to)
-                if (!team) {
-                    return next(new AppError('No team found with that ID', 404))
-                }
-
-                // If player is being sold, update the is_unsold flag
-                playerData.is_unsold = 'no'
-            }
 
             // Update player
             await player.update(playerData)

@@ -23,7 +23,7 @@ console.log(process.env.NODE_ENV)
 app.use(
     cors({
         origin: process.env.CLIENT_URL,
-        methods: ['GET', 'POST'],
+        methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
         credentials: true,
     }),
 )

@@ -15,7 +15,7 @@ playerRouter.use(authentication)
 
 playerRouter.route('/').get(playerController.getAll).post(playerController.create)
 
-playerRouter.route('/:id').get(playerController.getOne).patch(playerController.update)
+playerRouter.route('/:id').get(playerController.getOne).patch(playerController.update).delete(playerController.delete)
 // .delete(playerController.remove)
 
 export default playerRouter
