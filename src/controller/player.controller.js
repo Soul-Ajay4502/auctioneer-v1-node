@@ -165,7 +165,6 @@ export const playerController = {
 
             const isApproved = dataFrombody.isApproved
             playerData.is_admin_approved = isApproved
-            console.log('playerData', playerData);
 
 
             // Update player

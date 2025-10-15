@@ -1,6 +1,7 @@
 'use strict'
 import { Team, League, PlayerDetail } from '../../db/models/index.js'
 import { AppError } from '../utils/app-error.js'
+import { computeMaxAmountPerPlayer } from '../utils/compute-max-amount-per-player.js'
 
 export const teamController = {
     // Create a new team
@@ -14,7 +15,39 @@ export const teamController = {
                 return next(new AppError('No league found with that ID', 404))
             }
 
-            const team = await Team.create(teamData)
+            const existingTeam = await Team.findOne({
+                where: {
+                    team_name: teamData.team_name,
+                    league_id: teamData.league_id,
+                },
+            })
+
+            if (existingTeam) {
+                return next(new AppError('Team with this name already exists for this league', 400))
+            }
+
+            const minimunPlayerCount = league.minimum_player_count;
+            const bidAmountPerTeam = league.bid_amount_per_team;
+            const playerBasePrice = league.player_base_price;
+
+            const { maxAmountPerPlayer } = computeMaxAmountPerPlayer(minimunPlayerCount, bidAmountPerTeam, playerBasePrice)
+
+
+
+            const dataTobeCreated = {
+                team_name: teamData.team_name,
+                team_owner: teamData.team_owner,
+                team_owner_phone: teamData.team_owner_phone,
+                league_id: teamData.league_id,
+                jersey_color: teamData.jersey_color,
+                team_logo: teamData.team_logo,
+                logo_url: teamData.logo_url,
+                max_amount_for_bid: bidAmountPerTeam,
+                balance_amount: bidAmountPerTeam,
+                max_amount_per_player: maxAmountPerPlayer,
+            }
+
+            const team = await Team.create(dataTobeCreated)
 
             return res.status(201).json({
                 status: 'success',
@@ -98,22 +131,46 @@ export const teamController = {
             const { id } = req.params
             const teamData = req.body
 
+            // If league_id is being updated, check if the new league exists
+            if (!teamData.league_id) {
+                return next(new AppError(' league ID Required', 400))
+            }
+
+            const league = await League.findByPk(teamData.league_id)
+            if (!league) {
+                return next(new AppError('No league found with that ID', 404))
+            }
+
+
+
             const team = await Team.findByPk(id)
 
             if (!team) {
                 return next(new AppError('No team found with that ID', 404))
             }
+            const minimunPlayerCount = league.minimum_player_count;
+            const bidAmountPerTeam = league.bid_amount_per_team;
+            const playerBasePrice = league.player_base_price;
 
-            // If league_id is being updated, check if the new league exists
-            if (teamData.league_id && teamData.league_id !== team.league_id) {
-                const league = await League.findByPk(teamData.league_id)
-                if (!league) {
-                    return next(new AppError('No league found with that ID', 404))
-                }
+            const { maxAmountPerPlayer } = computeMaxAmountPerPlayer(minimunPlayerCount, bidAmountPerTeam, playerBasePrice)
+
+
+
+            const dataTobeCreated = {
+                team_name: teamData.team_name,
+                team_owner: teamData.team_owner,
+                team_owner_phone: teamData.team_owner_phone,
+                league_id: teamData.league_id,
+                jersey_color: teamData.jersey_color,
+                team_logo: teamData.team_logo,
+                logo_url: teamData.logo_url,
+                max_amount_for_bid: bidAmountPerTeam,
+                balance_amount: bidAmountPerTeam,
+                max_amount_per_player: maxAmountPerPlayer,
             }
 
             // Update team
-            await team.update(teamData)
+            await team.update(dataTobeCreated)
 
             return res.status(200).json({
                 status: 'success',
